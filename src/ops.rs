@@ -60,7 +60,7 @@ impl Recip for f64 { type Result = Self; #[inline] fn recip(self) -> f64 { 1.0 /
 
 /// Trait implemented by types representing operators.
 pub trait Op: Copy {
-    /// Returns the structure identifying the operator.
+    /// Returns the structure that identifies the operator.
     fn oper() -> Self;
 }
 
@@ -75,7 +75,7 @@ impl Op for Additive {
 }
 
 #[derive(Clone, Copy)]
-/// The multiplication operator, commonly symbolized by `*`.
+/// The multiplication operator, commonly symbolized by `×`.
 pub struct Multiplicative;
 
 impl Op for Multiplicative {

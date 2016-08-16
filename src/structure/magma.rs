@@ -20,7 +20,7 @@ use cmp::ApproxEq;
 /// Types that are approximately closed under a given operator.
 ///
 /// ~~~notrust
-/// a, b ∈ Self ⇒ ∃ c ≈ a ∘ b such that c ∈ Self, 
+/// a, b ∈ Self ⇒ ∃ c ≈ a ∘ b such that c ∈ Self
 /// ~~~
 pub trait MagmaApprox<O: Op>
     : Sized
@@ -39,7 +39,7 @@ pub trait MagmaApprox<O: Op>
 /// Types that are closed under a given operator.
 ///
 /// ~~~notrust
-/// a, b ∈ Self ⇒ a ∘ b ∈ Self, 
+/// a, b ∈ Self ⇒ a ∘ b ∈ Self
 /// ~~~
 pub trait Magma<O: Op>
     : Eq

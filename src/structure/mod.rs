@@ -32,13 +32,14 @@
 //! ## Algebraic properties
 //!
 //! The goal of algebraic structures is to allow elements of sets to be combined together using one
-//! or several operators. The number and properties of those operators determine the algebraic
+//! or several operators. The number and properties of those operators characterize the algebraic
 //! structure. Abstract operators are usually noted `∘`, `+`, or `×`. The last two are preferred
-//! when their behavior conform with the intuitive meaning of addition and multiplication on reals.
-//! Let `Self` be a set. Here is a list of common properties those operator may fulfill:
+//! when their behavior conform with the usual meaning of addition and multiplication of reals.
+//! Let `Self` be a set. Here is a list of the most common properties those operator may fulfill:
 //!
 //! ~~~notrust
 //! (Closure)       a, b ∈ Self ⇒ a ∘ b ∈ Self, 
+//! (Divisibility)  ∀ a, b ∈ Self, ∃! r, l ∈ Self such that l ∘ a = b and a ∘ r = b
 //! (Invertibility) ∃ e ∈ Self, ∀ a ∈ Self, ∃ r, l ∈ Self such that l ∘ a = a ∘ r = e
 //!                 If the right and left inverse are equal they are usually noted r = l = a⁻¹.
 //! (Associativity) ∀ a, b, c ∈ Self, (a ∘ b) ∘ c = a ∘ (b ∘ c)       
@@ -53,6 +54,7 @@
 //!
 //! ```notrust
 //! (Approx. Closure) a, b ∈ Self ⇒ ∃ c ≈ a ∘ b such that c ∈ Self, 
+//! (Approx. Div.)    ∀ a, b ∈ Self, ∃ r, l ∈ Self such that l ∘ a ≈ b and a ∘ r ≈ b
 //! (Approx. Inv.)    ∃ e ∈ Self, ∀ a ∈ Self, ∃ r, l ∈ Self such that l ∘ a ≈ e and a ∘ r ≈ e
 //! (Approx. Assoc.)  ∀ a, b, c ∈ Self, (a ∘ b) ∘ c ≈ a ∘ (b ∘ c)       
 //! (Approx. Neutr.)  ∃ e ∈ Self, ∀ a ∈ Self, e ∘ a ≈ a and a ∘ e ≈ a

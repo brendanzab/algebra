@@ -47,7 +47,7 @@ pub trait RingApprox
 impl_marker!(RingApprox; i8, i16, i32, i64);
 
 
-/// A ring is the combination of an abelian group and a multiplicative monoid structures.
+/// A ring is the combination of an abelian group and a multiplicative monoid structure.
 ///
 /// A ring is equipped with:
 ///

@@ -27,7 +27,7 @@ pub trait MonoidApprox<O: Op>
     : SemigroupApprox<O>
     + Identity<O>
 {
-    /// Checks whether operating with the neatral element is approximately a no-op for the given
+    /// Checks whether operating with the identity element is approximately a no-op for the given
     /// argument.
     fn prop_operating_identity_element_is_noop_approx(a: Self) -> bool {
         let a = || a.clone();

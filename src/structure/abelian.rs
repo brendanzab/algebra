@@ -40,7 +40,7 @@ impl_marker!(GroupAbelianApprox<Additive>; i8, i16, i32, i64);
 /// A commutative group.
 ///
 /// ```notrust
-/// ∀ a, b ∈ Self, a ∘ b ≈ b ∘ a
+/// ∀ a, b ∈ Self, a ∘ b = b ∘ a
 /// ```
 pub trait GroupAbelian<O: Op>
     : GroupAbelianApprox<O>

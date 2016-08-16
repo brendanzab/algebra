@@ -17,7 +17,9 @@ use ops::{Op, Inverse, Additive};
 use structure::MagmaApprox;
 use structure::Magma;
 
-/// A magma for which approximated inverse is always possible.
+/// A magma with the approximate divisibility property.
+///
+/// Approximate divisibility is a weak form of approximate right and left invertibility:
 ///
 /// ```notrust
 /// ∀ a, b ∈ Self, ∃ r, l ∈ Self such that l ∘ a ≈ b and a ∘ r ≈ b
@@ -40,7 +42,9 @@ pub trait QuasigroupApprox<O: Op>
 
 impl_marker!(QuasigroupApprox<Additive>; i8, i16, i32, i64);
 
-/// A magma that for which inverse is always possible.
+/// A magma with the divisibility property.
+///
+/// Divisibility is a weak form of right and left invertibility:
 ///
 /// ```notrust
 /// ∀ a, b ∈ Self, ∃! r, l ∈ Self such that l ∘ a = b and a ∘ r = b
