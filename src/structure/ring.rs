@@ -15,13 +15,12 @@
 use ops::{Additive, Multiplicative};
 use cmp::ApproxEq;
 
-use wrapper::Wrapper as W;
-
 use structure::MonoidApprox;
 use structure::Monoid;
 use structure::GroupAbelianApprox;
 use structure::GroupAbelian;
 
+use wrapper::Wrapper as W;
 
 /// An approximate ring is given the approximate version of the ring's properties.
 ///
@@ -44,7 +43,7 @@ pub trait RingApprox
     }
 }
 
-impl_marker!(RingApprox; i8, i16, i32, i64);
+impl_marker!(RingApprox; i8, i16, i32, i64, f32, f64);
 
 
 /// A ring is the combination of an abelian group and a multiplicative monoid structure.
@@ -87,7 +86,7 @@ pub trait RingCommutativeApprox
     }
 }
 
-impl_marker!(RingCommutativeApprox; i8, i16, i32, i64);
+impl_marker!(RingCommutativeApprox; i8, i16, i32, i64, f32, f64);
 
 
 /// An ring with a commutative multiplication.
@@ -115,6 +114,7 @@ pub trait FieldApprox
     + GroupAbelianApprox<Multiplicative>
 {}
 
+impl_marker!(FieldApprox; f32, f64);
 
 /// A field is a commutative ring, and an abelian group under the multiplication operator.
 pub trait Field

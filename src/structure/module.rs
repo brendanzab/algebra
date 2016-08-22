@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+use num::Zero;
+
 use ops::Additive;
 
 use structure::GroupAbelianApprox;
@@ -20,6 +22,9 @@ use structure::RingCommutativeApprox;
 use structure::RingCommutative;
 use structure::FieldApprox;
 use structure::Field;
+use structure::RealApprox;
+
+use ident;
 
 
 /// A module with approximate operators.
@@ -59,3 +64,115 @@ pub trait VectorSpace<S: Field>
     : VectorSpaceApprox<S>
     + Module<S>
 {}
+
+
+/// A normed approximate vector space.
+pub trait NormedSpaceApprox<S: FieldApprox>
+    : VectorSpaceApprox<S> {
+    /// The squared norm of this vector.
+    fn norm_squared(&self) -> S;
+
+    /// The norm of this vector.
+    fn norm(&self) -> S;
+
+    /// Returns a normalized version of this vector.
+    fn normalize(&self) -> Self;
+
+    /// Normalizes this vector in-place and returns its norm.
+    fn normalize_mut(&mut self) -> S;
+
+    /// Returns a normalized version of this vector unless its norm as smaller or equal to `eps`.
+    fn try_normalize(&self, eps: &S) -> Option<Self>;
+
+    /// Normalizes this vector in-place or does nothing if its norm is smaller or equal to `eps`.
+    ///
+    /// If the normalization succeded, returns the old normal of this vector.
+    fn try_normalize_mut(&mut self, eps: &S) -> Option<S>;
+}
+
+
+/// An approximate vector space aquipped with an inner product.
+///
+/// It must be a normed space as well and the norm must agree with the inner product.
+/// The inner product must be symmetric, linear in its first agurment, and positive definite.
+pub trait InnerSpaceApprox<S: RealApprox>
+    : NormedSpaceApprox<S> {
+    /// Computes the inner product of `self` with `other`.
+    fn inner_product(&self, other: &Self) -> S;
+
+    /// Measures the angle between two vectors.
+    #[inline]
+    fn angle(&self, other: &Self) -> S {
+        let prod = self.inner_product(other);
+        let n1   = self.norm();
+        let n2   = self.norm();
+
+        let zero: S = ident::id(Additive);
+
+        if n1 == Zero::zero() || n2 == Zero::zero() {
+            zero
+        }
+        else {
+            let cang = prod / (n1 * n2);
+
+            cang.acos()
+        }
+    }
+}
+
+/// An approximate finite-dimensional vector space.
+pub trait FiniteDimVectorSpaceApprox<S: FieldApprox>
+    : VectorSpaceApprox<S> {
+
+    /// The vector space dimension.
+    fn dimension() -> usize;
+
+    /// The vector space canonical basis.
+    fn canonical_basis<F: FnOnce(&[Self])>(f: F);
+
+    /// Retrieves the i-th component of `Self` wrt. some basis.
+    ///
+    /// As usual, indexing starts with 0. The actual choice of basis is usually context-dependent
+    /// and is not specified to this method. It is up to the user to assume the provided component
+    /// will by wrt. the suitable basis for his application.
+    fn component(&self, i: usize) -> S;
+
+    /// Same as `.component(i)` but without bound-checking.
+    unsafe fn component_unchecked(&self, i: usize) -> S;
+}
+
+/// A set of elements called "points" associated with a vector space and a transitive and free
+/// additive group action called a "translation".
+///
+/// The group action is commonly called 
+pub trait AffineSpaceApprox<S: FieldApprox> {
+    /// The associated vector space.
+    type Translation: VectorSpaceApprox<S>;
+
+    /// Applies the additive group action of this affine space's associated vector space on `self`.
+    fn translate_by(&self, t: &Self::Translation) -> Self;
+
+    /// Returns the unique element `v` of the associated vector space such that `self = other + v`.
+    fn subtract(&self, other: &Self) -> Self::Translation;
+}
+
+
+/// A finite-dimensional affine space based on the field of reals.
+pub trait EuclideanSpaceApprox<S: RealApprox>: Sized + AffineSpaceApprox<S, Translation = <Self as EuclideanSpaceApprox<S>>::Vector> {
+    /// The associated finite-dimensional inner vector space space.
+    type Vector: InnerSpaceApprox<S> + FiniteDimVectorSpaceApprox<S>;
+
+    /// The distance between two points.
+    #[inline]
+    fn distance_squared(&self, b: &Self) -> S {
+        let ab = self.subtract(b);
+        ab.norm_squared()
+    }
+
+    /// The distance between two points.
+    #[inline]
+    fn distance(&self, b: &Self) -> S {
+        let ab = self.subtract(b);
+        ab.norm()
+    }
+}
