@@ -14,8 +14,8 @@
 // limitations under the License.
 
 //! Operators traits and structures.
-pub use std::ops::{Add, Sub, Neg};
-pub use std::ops::{Mul, Div, Rem};
+pub use core::ops::{Add, Sub, Neg};
+pub use core::ops::{Mul, Div, Rem};
 
 /// Trait used to define the inverse element relative to the given operator.
 ///

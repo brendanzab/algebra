@@ -14,6 +14,8 @@
 
 //! Traits for generic mathematics.
 
+#![no_std]
+
 #![deny(non_camel_case_types)]
 #![deny(unused_parens)]
 #![deny(non_upper_case_globals)]

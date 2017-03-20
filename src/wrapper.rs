@@ -1,7 +1,7 @@
 //! Wrappers that attach an algebraic structure with a value type.
 
-use std::ops::{Add, Neg, Sub, Mul, Div};
-use std::fmt::{Display, Formatter, Error};
+use core::ops::{Add, Neg, Sub, Mul, Div};
+use core::fmt::{Display, Formatter, Error};
 
 use ops::{Op, Inverse, Recip, Additive, Multiplicative};
 use cmp::ApproxEq;
