@@ -21,16 +21,16 @@
 #![deny(unused_results)]
 #![deny(missing_docs)]
 
-#![cfg_attr(test, feature(plugin))]
-#![cfg_attr(test, plugin(quickcheck_macros))]
-
 #[cfg(test)]
 extern crate quickcheck;
+#[cfg(test)]
+#[macro_use(quickcheck)]
+extern crate quickcheck_macros;
 
 #[macro_use]
 mod macros;
 pub mod cmp;
-pub mod ops;
 pub mod ident;
-pub mod wrapper;
+pub mod ops;
 pub mod structure;
+pub mod wrapper;
