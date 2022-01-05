@@ -14,7 +14,7 @@
 
 //! Identities for binary operators.
 
-use ops::{Op, Additive, Multiplicative};
+use crate::ops::{Additive, Multiplicative, Op};
 
 /// A type that is equipped with identity.
 pub trait Identity<O: Op> {

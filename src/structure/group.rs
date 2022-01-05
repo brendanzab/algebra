@@ -12,26 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use ops::{Op, Additive};
+use crate::ops::{Additive, Op};
 
-use structure::LoopApprox;
-use structure::Loop;
-use structure::MonoidApprox;
-use structure::Monoid;
+use crate::structure::Loop;
+use crate::structure::LoopApprox;
+use crate::structure::Monoid;
+use crate::structure::MonoidApprox;
 
 /// An approximate group is an approx. loop and an approx. monoid simultaneously.
-pub trait GroupApprox<O: Op>
-    : LoopApprox<O>
-    + MonoidApprox<O>
-{}
+pub trait GroupApprox<O: Op>: LoopApprox<O> + MonoidApprox<O> {}
 
 impl_marker!(GroupApprox<Additive>; i8, i16, i32, i64);
 
 /// A group is a loop and a monoid at the same time.
-pub trait Group<O: Op>
-    : GroupApprox<O>
-    + Loop<O>
-    + Monoid<O>
-{}
+pub trait Group<O: Op>: GroupApprox<O> + Loop<O> + Monoid<O> {}
 
 impl_marker!(Group<Additive>; i8, i16, i32, i64);

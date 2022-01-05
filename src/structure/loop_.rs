@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use ops::{Op, Additive};
-use ident::Identity;
+use crate::ident::Identity;
+use crate::ops::{Additive, Op};
 
-use structure::Quasigroup;
-use structure::QuasigroupApprox;
+use crate::structure::Quasigroup;
+use crate::structure::QuasigroupApprox;
 
 /// An approximate quasigroup with an unique identity element.
 ///
@@ -26,10 +26,7 @@ use structure::QuasigroupApprox;
 /// ~~~notrust
 /// ∃ e ∈ Self, ∀ a ∈ Self, ∃ r, l ∈ Self such that l ∘ a ≈ e and a ∘ r ≈ e
 /// ~~~
-pub trait LoopApprox<O: Op>
-    : QuasigroupApprox<O>
-    + Identity<O>
-{}
+pub trait LoopApprox<O: Op>: QuasigroupApprox<O> + Identity<O> {}
 
 impl_marker!(LoopApprox<Additive>; i8, i16, i32, i64);
 
@@ -41,9 +38,6 @@ impl_marker!(LoopApprox<Additive>; i8, i16, i32, i64);
 /// ~~~notrust
 /// ∃ e ∈ Self, ∀ a ∈ Self, ∃ r, l ∈ Self such that l ∘ a = a ∘ r = e
 /// ~~~
-pub trait Loop<O: Op>
-    : LoopApprox<O>
-    + Quasigroup<O>
-{}
+pub trait Loop<O: Op>: LoopApprox<O> + Quasigroup<O> {}
 
 impl_marker!(Loop<Additive>; i8, i16, i32, i64);

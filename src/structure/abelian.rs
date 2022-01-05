@@ -14,19 +14,17 @@
 
 #![allow(missing_docs)]
 
-use ops::{Op, Additive};
+use crate::ops::{Additive, Op};
 
-use structure::GroupApprox;
-use structure::Group;
+use crate::structure::Group;
+use crate::structure::GroupApprox;
 
 /// An approximately commutative group.
 ///
 /// ```notrust
 /// ∀ a, b ∈ Self, a ∘ b ≈ b ∘ a
 /// ```
-pub trait GroupAbelianApprox<O: Op>
-    : GroupApprox<O>
-{
+pub trait GroupAbelianApprox<O: Op>: GroupApprox<O> {
     /// Returns `true` if the operator is approximately commutative for
     /// the given argument tuple.
     fn prop_is_commutative_approx(args: (Self, Self)) -> bool {
@@ -42,10 +40,7 @@ impl_marker!(GroupAbelianApprox<Additive>; i8, i16, i32, i64);
 /// ```notrust
 /// ∀ a, b ∈ Self, a ∘ b = b ∘ a
 /// ```
-pub trait GroupAbelian<O: Op>
-    : GroupAbelianApprox<O>
-    + Group<O>
-{
+pub trait GroupAbelian<O: Op>: GroupAbelianApprox<O> + Group<O> {
     /// Returns `true` if the operator is commutative for
     /// the given argument tuple.
     fn prop_is_commutative(args: (Self, Self)) -> bool {

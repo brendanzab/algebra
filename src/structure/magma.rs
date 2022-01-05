@@ -14,20 +14,15 @@
 
 use std::ops::{Add, Mul};
 
-use ops::{Op, Additive, Multiplicative};
-use cmp::ApproxEq;
+use crate::cmp::ApproxEq;
+use crate::ops::{Additive, Multiplicative, Op};
 
 /// Types that are approximately closed under a given operator.
 ///
 /// ~~~notrust
 /// a, b ∈ Self ⇒ ∃ c ≈ a ∘ b such that c ∈ Self
 /// ~~~
-pub trait MagmaApprox<O: Op>
-    : Sized
-    + PartialEq
-    + ApproxEq
-    + Clone
-{
+pub trait MagmaApprox<O: Op>: Sized + PartialEq + ApproxEq + Clone {
     /// Performs an operation.
     fn approx(self, Self) -> Self;
     /// Performs specific operation.
@@ -41,10 +36,7 @@ pub trait MagmaApprox<O: Op>
 /// ~~~notrust
 /// a, b ∈ Self ⇒ a ∘ b ∈ Self
 /// ~~~
-pub trait Magma<O: Op>
-    : Eq
-    + MagmaApprox<O>
-{
+pub trait Magma<O: Op>: Eq + MagmaApprox<O> {
     /// Performs an operation.
     fn operate(self, lhs: Self) -> Self {
         self.approx(lhs)
@@ -56,25 +48,23 @@ pub trait Magma<O: Op>
 }
 
 impl<T> MagmaApprox<Additive> for T
-where T: Add<T, Output=T> + PartialEq + ApproxEq + Clone,
+where
+    T: Add<T, Output = T> + PartialEq + ApproxEq + Clone,
 {
     fn approx(self, lhs: Self) -> Self {
         self + lhs
     }
 }
 
-impl<T> Magma<Additive> for T
-where T: MagmaApprox<Additive> + Eq,
-{}
+impl<T> Magma<Additive> for T where T: MagmaApprox<Additive> + Eq {}
 
 impl<T> MagmaApprox<Multiplicative> for T
-where T: Mul<T, Output=T> + PartialEq + ApproxEq + Clone,
+where
+    T: Mul<T, Output = T> + PartialEq + ApproxEq + Clone,
 {
     fn approx(self, lhs: Self) -> Self {
         self * lhs
     }
 }
 
-impl<T> Magma<Multiplicative> for T
-where T: MagmaApprox<Multiplicative> + Eq,
-{}
+impl<T> Magma<Multiplicative> for T where T: MagmaApprox<Multiplicative> + Eq {}

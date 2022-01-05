@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use ops::{Op, Inverse, Additive};
+use crate::ops::{Additive, Inverse, Op};
 
-use structure::MagmaApprox;
-use structure::Magma;
+use crate::structure::Magma;
+use crate::structure::MagmaApprox;
 
 /// A magma with the approximate divisibility property.
 ///
@@ -24,17 +24,14 @@ use structure::Magma;
 /// ```notrust
 /// ∀ a, b ∈ Self, ∃ r, l ∈ Self such that l ∘ a ≈ b and a ∘ r ≈ b
 /// ```
-pub trait QuasigroupApprox<O: Op>
-    : MagmaApprox<O>
-    + Inverse<O>
-{
+pub trait QuasigroupApprox<O: Op>: MagmaApprox<O> + Inverse<O> {
     /// Returns `true` if latin squareness holds approximately for
     /// the given arguments.
     fn prop_inv_is_latin_square_approx(args: (Self, Self)) -> bool {
         let (a, b) = (|| args.0.clone(), || args.1.clone());
 
-        a().approx_eq(&(a().approx(b().inv()).approx(b()))) &&
-        a().approx_eq(&(a().approx(b().approx(b().inv()))))
+        a().approx_eq(&(a().approx(b().inv()).approx(b())))
+            && a().approx_eq(&(a().approx(b().approx(b().inv()))))
 
         // TODO: pseudo inverse?
     }
@@ -49,17 +46,13 @@ impl_marker!(QuasigroupApprox<Additive>; i8, i16, i32, i64);
 /// ```notrust
 /// ∀ a, b ∈ Self, ∃! r, l ∈ Self such that l ∘ a = b and a ∘ r = b
 /// ```
-pub trait Quasigroup<O: Op>
-    : QuasigroupApprox<O>
-    + Magma<O>
-{
+pub trait Quasigroup<O: Op>: QuasigroupApprox<O> + Magma<O> {
     /// Returns `true` if latin squareness holds for
     /// the given arguments.
     fn prop_inv_is_latin_square(args: (Self, Self)) -> bool {
         let (a, b) = (|| args.0.clone(), || args.1.clone());
 
-        a() == a().operate(b().inv()).operate(b()) &&
-        a() == a().operate(b()).operate(b().inv())
+        a() == a().operate(b().inv()).operate(b()) && a() == a().operate(b()).operate(b().inv())
 
         // TODO: pseudo inverse?
     }

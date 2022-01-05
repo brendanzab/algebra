@@ -12,21 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use ops::Additive;
+use crate::ops::Additive;
 
-use structure::GroupAbelianApprox;
-use structure::GroupAbelian;
-use structure::RingCommutativeApprox;
-use structure::RingCommutative;
-use structure::FieldApprox;
-use structure::Field;
-
+use crate::structure::Field;
+use crate::structure::FieldApprox;
+use crate::structure::GroupAbelian;
+use crate::structure::GroupAbelianApprox;
+use crate::structure::RingCommutative;
+use crate::structure::RingCommutativeApprox;
 
 /// A module with approximate operators.
-pub trait ModuleApprox<S: RingCommutativeApprox>
-    : GroupAbelianApprox<Additive>
-{}
-
+pub trait ModuleApprox<S: RingCommutativeApprox>: GroupAbelianApprox<Additive> {}
 
 /// A module combines two sets: one with an additive abelian group structure and another with a
 /// commutative ring structure.
@@ -43,19 +39,10 @@ pub trait ModuleApprox<S: RingCommutativeApprox>
 /// (a × b) ∘ x = a ∘ (b ∘ x)
 /// 1 ∘ x       = x
 /// ```
-pub trait Module<S: RingCommutative>
-    : ModuleApprox<S>
-    + GroupAbelian<Additive>
-{}
+pub trait Module<S: RingCommutative>: ModuleApprox<S> + GroupAbelian<Additive> {}
 
 /// A approximate vector space has an approx. module structure over an approx. field.
-pub trait VectorSpaceApprox<S: FieldApprox>
-    : ModuleApprox<S>
-{}
-
+pub trait VectorSpaceApprox<S: FieldApprox>: ModuleApprox<S> {}
 
 /// A vector space has a module structure over a field instead of a ring.
-pub trait VectorSpace<S: Field>
-    : VectorSpaceApprox<S>
-    + Module<S>
-{}
+pub trait VectorSpace<S: Field>: VectorSpaceApprox<S> + Module<S> {}

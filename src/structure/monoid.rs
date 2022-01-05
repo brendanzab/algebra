@@ -12,27 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use ops::{Op, Additive, Multiplicative};
-use ident::Identity;
+use crate::ident::Identity;
+use crate::ops::{Additive, Multiplicative, Op};
 
-use structure::SemigroupApprox;
-use structure::Semigroup;
+use crate::structure::Semigroup;
+use crate::structure::SemigroupApprox;
 
 /// An approximate semigroup equipped with an identity element.
 ///
 /// ~~~notrust
 /// ∃ e ∈ Self, ∀ a ∈ Self, e ∘ a ≈ a and a ∘ e ≈ a
 /// ~~~
-pub trait MonoidApprox<O: Op>
-    : SemigroupApprox<O>
-    + Identity<O>
-{
+pub trait MonoidApprox<O: Op>: SemigroupApprox<O> + Identity<O> {
     /// Checks whether operating with the identity element is approximately a no-op for the given
     /// argument.
     fn prop_operating_identity_element_is_noop_approx(a: Self) -> bool {
         let a = || a.clone();
-        (a().approx(Identity::id())).approx_eq(&a()) &&
-        (Self::id().approx(a())).approx_eq(&a())
+        (a().approx(Identity::id())).approx_eq(&a()) && (Self::id().approx(a())).approx_eq(&a())
     }
 }
 
@@ -44,15 +40,11 @@ impl_marker!(MonoidApprox<Multiplicative>; u8, u16, u32, u64, i8, i16, i32, i64)
 /// ~~~notrust
 /// ∃ e ∈ Self, ∀ a ∈ Self, e ∘ a = a ∘ e = a
 /// ~~~
-pub trait Monoid<O: Op>
-    : MonoidApprox<O>
-    + Semigroup<O>
-{
+pub trait Monoid<O: Op>: MonoidApprox<O> + Semigroup<O> {
     /// Checks whether operating with the identity element is a no-op for the given argument.
     fn prop_operating_identity_element_is_noop(a: Self) -> bool {
         let a = || a.clone();
-        a().operate(Identity::id()) == a() &&
-        Self::id().operate(a()) == a()
+        a().operate(Identity::id()) == a() && Self::id().operate(a()) == a()
     }
 }
 

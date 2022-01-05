@@ -12,19 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use ops::{Op, Additive, Multiplicative};
+use crate::ops::{Additive, Multiplicative, Op};
 
-use structure::MagmaApprox;
-use structure::Magma;
+use crate::structure::Magma;
+use crate::structure::MagmaApprox;
 
 /// An approximately associative magma.
 ///
 /// ~~~notrust
 /// ∀ a, b, c ∈ Self, (a ∘ b) ∘ c ≈ a ∘ (b ∘ c)       
 /// ~~~
-pub trait SemigroupApprox<O: Op>
-    : MagmaApprox<O>
-{
+pub trait SemigroupApprox<O: Op>: MagmaApprox<O> {
     /// Returns `true` if associativity holds approximately for
     /// the given arguments.
     fn prop_is_associative_approx(args: (Self, Self, Self)) -> bool {
@@ -41,10 +39,7 @@ impl_marker!(SemigroupApprox<Multiplicative>; u8, u16, u32, u64, i8, i16, i32, i
 /// ~~~notrust
 /// ∀ a, b, c ∈ Self, (a ∘ b) ∘ c = a ∘ (b ∘ c)       
 /// ~~~
-pub trait Semigroup<O: Op>
-    : SemigroupApprox<O>
-    + Magma<O>
-{
+pub trait Semigroup<O: Op>: SemigroupApprox<O> + Magma<O> {
     /// Returns `true` if associativity holds for the given
     /// arguments.
     fn prop_is_associative(args: (Self, Self, Self)) -> bool {

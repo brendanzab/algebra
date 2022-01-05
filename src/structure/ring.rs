@@ -12,16 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use ops::{Additive, Multiplicative};
-use cmp::ApproxEq;
+use crate::cmp::ApproxEq;
+use crate::ops::{Additive, Multiplicative};
 
-use wrapper::Wrapper as W;
+use crate::wrapper::Wrapper as W;
 
-use structure::MonoidApprox;
-use structure::Monoid;
-use structure::GroupAbelianApprox;
-use structure::GroupAbelian;
-
+use crate::structure::GroupAbelian;
+use crate::structure::GroupAbelianApprox;
+use crate::structure::Monoid;
+use crate::structure::MonoidApprox;
 
 /// An approximate ring is given the approximate version of the ring's properties.
 ///
@@ -29,14 +28,15 @@ use structure::GroupAbelian;
 ///
 /// * An addition operator `+` that fulfills the constraints of an approximate abelian group.
 /// * A multiplication operator `×` that fulfills the constraints of an approximate monoid.
-pub trait RingApprox
-    : GroupAbelianApprox<Additive>
-    + MonoidApprox<Multiplicative>
-{
+pub trait RingApprox: GroupAbelianApprox<Additive> + MonoidApprox<Multiplicative> {
     /// Returns `true` if the multiplication and addition operators are approximately distributive for
     /// the given argument tuple.
     fn prop_mul_and_add_are_distributive_approx(args: (Self, Self, Self)) -> bool {
-        let (a, b, c) = (|| W(args.0.clone()), || W(args.1.clone()), || W(args.2.clone()));
+        let (a, b, c) = (
+            || W(args.0.clone()),
+            || W(args.1.clone()),
+            || W(args.2.clone()),
+        );
         // Left distributivity
         ((a() * b()) + c()).approx_eq(&((a() * b()) + (a() * c()))) &&
         // Right distributivity
@@ -46,22 +46,21 @@ pub trait RingApprox
 
 impl_marker!(RingApprox; i8, i16, i32, i64);
 
-
 /// A ring is the combination of an abelian group and a multiplicative monoid structure.
 ///
 /// A ring is equipped with:
 ///
 /// * An addition operator `+` that fulfills the constraints of an abelian group.
 /// * A multiplication operator `×` that fulfills the constraints of a monoid.
-pub trait Ring
-    : RingApprox
-    + GroupAbelian<Additive>
-    + Monoid<Multiplicative>
-{
+pub trait Ring: RingApprox + GroupAbelian<Additive> + Monoid<Multiplicative> {
     /// Returns `true` if the multiplication and addition operators are distributive for
     /// the given argument tuple.
     fn prop_mul_and_add_are_distributive_approx(args: (Self, Self, Self)) -> bool {
-        let (a, b, c) = (|| W(args.0.clone()), || W(args.1.clone()), || W(args.2.clone()));
+        let (a, b, c) = (
+            || W(args.0.clone()),
+            || W(args.1.clone()),
+            || W(args.2.clone()),
+        );
         // Left distributivity
         (a() * b()) + c() == (a() * b()) + (a() * c()) &&
         // Right distributivity
@@ -76,9 +75,7 @@ impl_marker!(Ring; i8, i16, i32, i64);
 /// ```notrust
 /// ∀ a, b ∈ Self, a × b ≈ b × a
 /// ```
-pub trait RingCommutativeApprox
-    : RingApprox
-{
+pub trait RingCommutativeApprox: RingApprox {
     /// Returns `true` if the multiplication operator is approximately commutative for
     /// the given argument tuple.
     fn prop_mul_is_commutative_approx(args: (Self, Self)) -> bool {
@@ -89,16 +86,12 @@ pub trait RingCommutativeApprox
 
 impl_marker!(RingCommutativeApprox; i8, i16, i32, i64);
 
-
 /// An ring with a commutative multiplication.
 ///
 /// ```notrust
 /// ∀ a, b ∈ Self, a × b = b × a
 /// ```
-pub trait RingCommutative
-    : RingCommutativeApprox
-    + Ring
-{
+pub trait RingCommutative: RingCommutativeApprox + Ring {
     /// Returns `true` if the multiplication operator is commutative for
     /// the given argument tuple.
     fn prop_mul_is_commutative(args: (Self, Self)) -> bool {
@@ -110,15 +103,7 @@ pub trait RingCommutative
 impl_marker!(RingCommutative; i8, i16, i32, i64);
 
 /// An approximate field is an approx. commutative ring, and an  approx. abelian group under the multiplication operator.
-pub trait FieldApprox
-    : RingCommutativeApprox
-    + GroupAbelianApprox<Multiplicative>
-{}
-
+pub trait FieldApprox: RingCommutativeApprox + GroupAbelianApprox<Multiplicative> {}
 
 /// A field is a commutative ring, and an abelian group under the multiplication operator.
-pub trait Field
-    : FieldApprox
-    + RingCommutative
-    + GroupAbelian<Multiplicative>
-{}
+pub trait Field: FieldApprox + RingCommutative + GroupAbelian<Multiplicative> {}
