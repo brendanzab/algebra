@@ -38,7 +38,7 @@
 //! Let `Self` be a set. Here is a list of the most common properties those operator may fulfill:
 //!
 //! ~~~notrust
-//! (Closure)       a, b ∈ Self ⇒ a ∘ b ∈ Self, 
+//! (Closure)       a, b ∈ Self ⇒ a ∘ b ∈ Self,
 //! (Divisibility)  ∀ a, b ∈ Self, ∃! r, l ∈ Self such that l ∘ a = b and a ∘ r = b
 //! (Invertibility) ∃ e ∈ Self, ∀ a ∈ Self, ∃ r, l ∈ Self such that l ∘ a = a ∘ r = e
 //!                 If the right and left inverse are equal they are usually noted r = l = a⁻¹.
@@ -53,7 +53,7 @@
 //! its approximate version is fulfilled as well.
 //!
 //! ```notrust
-//! (Approx. Closure) a, b ∈ Self ⇒ ∃ c ≈ a ∘ b such that c ∈ Self, 
+//! (Approx. Closure) a, b ∈ Self ⇒ ∃ c ≈ a ∘ b such that c ∈ Self,
 //! (Approx. Div.)    ∀ a, b ∈ Self, ∃ r, l ∈ Self such that l ∘ a ≈ b and a ∘ r ≈ b
 //! (Approx. Inv.)    ∃ e ∈ Self, ∀ a ∈ Self, ∃ r, l ∈ Self such that l ∘ a ≈ e and a ∘ r ≈ e
 //! (Approx. Assoc.)  ∀ a, b, c ∈ Self, (a ∘ b) ∘ c ≈ a ∘ (b ∘ c)       
@@ -175,45 +175,45 @@
 //! }
 //! ~~~
 
-pub use self::magma::MagmaApprox;
 pub use self::magma::Magma;
+pub use self::magma::MagmaApprox;
 
-pub use self::quasigroup::QuasigroupApprox;
 pub use self::quasigroup::Quasigroup;
+pub use self::quasigroup::QuasigroupApprox;
 
-pub use self::loop_::LoopApprox;
 pub use self::loop_::Loop;
+pub use self::loop_::LoopApprox;
 
-pub use self::semigroup::SemigroupApprox;
 pub use self::semigroup::Semigroup;
+pub use self::semigroup::SemigroupApprox;
 
-pub use self::monoid::MonoidApprox;
 pub use self::monoid::Monoid;
+pub use self::monoid::MonoidApprox;
 
-pub use self::group::GroupApprox;
 pub use self::group::Group;
+pub use self::group::GroupApprox;
 
-pub use self::abelian::GroupAbelianApprox;
 pub use self::abelian::GroupAbelian;
+pub use self::abelian::GroupAbelianApprox;
 
-pub use self::ring::RingApprox;
-pub use self::ring::Ring;
-pub use self::ring::RingCommutativeApprox;
-pub use self::ring::RingCommutative;
-pub use self::ring::FieldApprox;
 pub use self::ring::Field;
+pub use self::ring::FieldApprox;
+pub use self::ring::Ring;
+pub use self::ring::RingApprox;
+pub use self::ring::RingCommutative;
+pub use self::ring::RingCommutativeApprox;
 
-pub use self::module::ModuleApprox;
 pub use self::module::Module;
-pub use self::module::VectorSpaceApprox;
+pub use self::module::ModuleApprox;
 pub use self::module::VectorSpace;
+pub use self::module::VectorSpaceApprox;
 
-mod magma;
-mod quasigroup;
-mod loop_;
-mod semigroup;
-mod monoid;
-mod group;
 mod abelian;
-mod ring;
+mod group;
+mod loop_;
+mod magma;
 mod module;
+mod monoid;
+mod quasigroup;
+mod ring;
+mod semigroup;

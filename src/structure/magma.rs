@@ -24,7 +24,7 @@ use crate::ops::{Additive, Multiplicative, Op};
 /// ~~~
 pub trait MagmaApprox<O: Op>: Sized + PartialEq + ApproxEq + Clone {
     /// Performs an operation.
-    fn approx(self, Self) -> Self;
+    fn approx(self, _: Self) -> Self;
     /// Performs specific operation.
     fn ap(self, _: O, lhs: Self) -> Self {
         self.approx(lhs)

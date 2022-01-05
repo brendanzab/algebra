@@ -56,9 +56,9 @@ mod tests {
     macro_rules! check_int {
         ($($T:ident),* $(,)*) => {
             $(mod $T {
-                use ops::{Additive, Multiplicative};
-                use structure::MonoidApprox;
-                use structure::Monoid;
+                use crate::ops::{Additive, Multiplicative};
+                use crate::structure::MonoidApprox;
+                use crate::structure::Monoid;
 
                 #[quickcheck]
                 fn prop_zero_is_noop_approx(args: $T) -> bool {

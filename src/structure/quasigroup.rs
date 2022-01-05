@@ -65,9 +65,9 @@ mod tests {
     macro_rules! check_int {
         ($($T:ident),* $(,)*) => {
             $(mod $T {
-                use ops::Additive;
-                use structure::QuasigroupApprox;
-                use structure::Quasigroup;
+                use crate::ops::Additive;
+                use crate::structure::QuasigroupApprox;
+                use crate::structure::Quasigroup;
 
                 #[quickcheck]
                 fn prop_inv_is_latin_square_approx(args: ($T, $T)) -> bool {

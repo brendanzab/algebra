@@ -56,9 +56,9 @@ mod tests {
     macro_rules! check_int {
         ($($T:ident),* $(,)*) => {
             $(mod $T {
-                use ops::{Additive, Multiplicative};
-                use structure::SemigroupApprox;
-                use structure::Semigroup;
+                use crate::ops::{Additive, Multiplicative};
+                use crate::structure::SemigroupApprox;
+                use crate::structure::Semigroup;
 
                 #[quickcheck]
                 fn prop_add_is_associative_approx(args: ($T, $T, $T)) -> bool {

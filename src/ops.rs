@@ -14,8 +14,8 @@
 // limitations under the License.
 
 //! Operators traits and structures.
-pub use std::ops::{Add, Sub, Neg};
-pub use std::ops::{Mul, Div, Rem};
+pub use std::ops::{Add, Neg, Sub};
+pub use std::ops::{Div, Mul, Rem};
 
 /// Trait used to define the inverse element relative to the given operator.
 ///
@@ -31,7 +31,8 @@ pub fn inv<O: Op, M: Inverse<O>>(_o: O, m: M) -> M {
 }
 
 impl<T> Inverse<Additive> for T
-where T: Neg<Output=T>
+where
+    T: Neg<Output = T>,
 {
     fn inv(self) -> Self {
         -self
@@ -39,7 +40,8 @@ where T: Neg<Output=T>
 }
 
 impl<T> Inverse<Multiplicative> for T
-where T: Recip<Result=T>
+where
+    T: Recip<Result = T>,
 {
     fn inv(self) -> Self {
         self.recip()
@@ -55,8 +57,20 @@ pub trait Recip {
     fn recip(self) -> Self::Result;
 }
 
-impl Recip for f32 { type Result = Self; #[inline] fn recip(self) -> f32 { 1.0 / self } }
-impl Recip for f64 { type Result = Self; #[inline] fn recip(self) -> f64 { 1.0 / self } }
+impl Recip for f32 {
+    type Result = Self;
+    #[inline]
+    fn recip(self) -> f32 {
+        1.0 / self
+    }
+}
+impl Recip for f64 {
+    type Result = Self;
+    #[inline]
+    fn recip(self) -> f64 {
+        1.0 / self
+    }
+}
 
 /// Trait implemented by types representing operators.
 pub trait Op: Copy {
